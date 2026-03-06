@@ -9,7 +9,7 @@ const __dirname = path.dirname(__filename);
 
 const app = express();
 // Cloud Run inyecta el puerto dinámicamente en process.env.PORT (usualmente 8080)
-const port = 3000;
+const port = process.env.PORT || 8080;
 
 // ¡LA MAGIA OCURRE AQUÍ! Habilitamos CORS para permitir que tu Dashboard descargue el JS
 app.use(cors({
