@@ -44,7 +44,7 @@ export default function App({ titulo = 'Inicio', migas = '' }: AppProps) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0b101a] text-white font-sans selection:bg-cyan-500/30">
+    <div className="relative w-full z-50 text-white font-sans selection:bg-cyan-500/30">
       <Sidebar 
         isOpen={isSidebarOpen} 
         onClose={handleCloseSidebar} 

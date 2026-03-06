@@ -19,8 +19,11 @@ app.use(cors({
 // Servimos la carpeta "dist" que generó Vite
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Cualquier otra ruta la redirigimos al index (buena práctica por si lo abren directo)
+// Cualquier otra ruta la redirigimos al index, EXCEPTO si buscan un archivo .css o .js que no existe
 app.get(/(.*)/, (req, res) => {
+  if (req.url.endsWith('.css') || req.url.endsWith('.js')) {
+    return res.status(404).send('Archivo no encontrado');
+  }
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
