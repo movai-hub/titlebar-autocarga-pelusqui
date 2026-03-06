@@ -20,7 +20,7 @@ app.use(cors({
 app.use(express.static(path.join(__dirname, 'dist')));
 
 // Cualquier otra ruta la redirigimos al index (buena práctica por si lo abren directo)
-app.get('*', (req, res) => {
+app.get(/(.*)/, (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
