@@ -55,9 +55,11 @@ export interface TitleBarProps {
   onBack?: () => void;
   onNotificationClick?: () => void;
   onUserClick?: () => void;
+  titulo?: string;
+  migas?: string;
 }
 
-const TitleBar: React.FC<TitleBarProps> = ({ isMenuOpen, onMenuClick, onBack, onNotificationClick, onUserClick }) => {
+const TitleBar: React.FC<TitleBarProps> = ({ isMenuOpen, onMenuClick, onBack, onNotificationClick, onUserClick, titulo, migas }) => {
   return (
     <header 
       role="banner" 
@@ -84,6 +86,12 @@ const TitleBar: React.FC<TitleBarProps> = ({ isMenuOpen, onMenuClick, onBack, on
           
           <Divider className="hidden sm:block" />
           <AppLogo />
+
+          {/* NUEVO: Mostrar título y migas dinámicas */}
+          <div className="hidden md:flex flex-col ml-4 border-l border-white/10 pl-4">
+             <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">{migas}</span>
+             <h1 className="text-sm font-bold text-white">{titulo}</h1>
+          </div>
        </div>
 
        {/* --- RIGHT SIDE: ACTIONS & PROFILE --- */}

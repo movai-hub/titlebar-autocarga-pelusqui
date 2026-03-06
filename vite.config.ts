@@ -2,13 +2,35 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import {defineConfig} from 'vite';
 
-export default defineConfig(({mode}) => {
+export default defineConfig(({command, mode}) => {
+  const isBuild = command === 'build';
   return {
     plugins: [react(), tailwindcss()],
     server: {
-      // HMR is disabled in AI Studio via DISABLE_HMR env var.
-      // Do not modifyâ€”file watching is disabled to prevent flickering during agent edits.
       hmr: process.env.DISABLE_HMR !== 'true',
+      cors: true, // Vital para permitir peticiones desde el Dashboard
     },
+    build: isBuild ? {
+      // Configuramos Vite para compilar como una librería
+      lib: {
+        entry: 'src/main.tsx',
+        name: 'AltraTitlebar',
+        fileName: 'altra-titlebar',
+        formats: ['es'] // Formato ES Module
+      },
+      rollupOptions: {
+        // Aseguramos que las dependencias externas no se incluyan en el bundle si es necesario
+        // external: ['react', 'react-dom'],
+        // output: {
+        //   globals: {
+        //     react: 'React',
+        //     'react-dom': 'ReactDOM'
+        //   }
+        // }
+      },
+      define: {
+        'process.env.NODE_ENV': JSON.stringify(mode)
+      }
+    } : undefined
   };
 });

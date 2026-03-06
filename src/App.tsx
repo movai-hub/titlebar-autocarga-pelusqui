@@ -4,7 +4,12 @@ import Sidebar from './components/Sidebar';
 import NotificationsPanel from './components/NotificationsPanel';
 import UserMenu from './components/UserMenu';
 
-export default function App() {
+export interface AppProps {
+  titulo?: string;
+  migas?: string;
+}
+
+export default function App({ titulo = 'Inicio', migas = '' }: AppProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
@@ -32,8 +37,10 @@ export default function App() {
   }, []);
 
   const handleLogout = useCallback(() => {
-    console.log('Cerrando sesión...');
+    console.log('Cerrando sesión en Titlebar...');
     setIsUserMenuOpen(false);
+    // Emitimos un evento que el Dashboard escuchará
+    window.dispatchEvent(new CustomEvent('logoutGlobal'));
   }, []);
 
   return (
@@ -59,6 +66,8 @@ export default function App() {
         onMenuClick={isSidebarOpen ? handleCloseSidebar : handleMenuClick}
         onNotificationClick={handleNotificationClick}
         onUserClick={handleUserClick}
+        titulo={titulo}
+        migas={migas}
       />
     </div>
   );
