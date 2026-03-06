@@ -8,7 +8,19 @@ export default defineConfig(({command, mode}) => {
     plugins: [react(), tailwindcss()],
     server: {
       hmr: process.env.DISABLE_HMR !== 'true',
-      cors: true, // Vital para permitir peticiones desde el Dashboard
+      cors: {
+        origin: [
+          /^https?:\/\/.*\.autocargapelusqui\.com$/,
+          /^https?:\/\/autocargapelusqui\.com$/,
+          /^https?:\/\/localhost(:\d+)?$/,
+          /^https?:\/\/.*\.run\.app$/
+        ],
+        credentials: true,
+        methods: ['GET', 'POST', 'OPTIONS', 'HEAD', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+      },
+      host: '0.0.0.0',
+      port: 3000,
     },
     build: isBuild ? {
       // Configuramos Vite para compilar como una librería
